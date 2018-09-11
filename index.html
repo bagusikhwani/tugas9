@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>KFC Pesan Online</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+  
+      
+	  <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  
+  <!--<script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>-->
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<ul class="nav justify-content-end kfc">
+  <li class="nav-item">
+    <a class="nav-link active" href="index.html">Beranda</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="index.html">Admin</a>
+  </li>
+</ul>
+
+<!-- JUMBOTRON -->
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+	<div class="row">
+		<div class="col-lg-2 col-md-3 col-sm-12  align-self-center">
+			<img class="img-fluid" src="http://www.kfcku.com/themes/kfc_indonesia/images/kfc-indonesia-logo.png">
+		</div>
+		<div class="col-lg-10 col-md-9 col-sm-12 align-self-center">
+			  <h1 class="display-4">Rajanya Ayam</h1>
+				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+		</div>
+	</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container kfc">
+	
+	<div class="row">
+		<div class="col-lg-6 col-md-6">
+			<h4>Tambah Menu</h4>
+			<input class="form-control" id="inputMenu" type="text" placeholder="Ex: Paket Hemat 1" data-toggle="modal" data-target="#myModal">
+			
+			<button id="tambahMenu" type="button" class="btn btn-primary kfc">Tambah</button>
+		</div>
+		
+		<div class="col-lg-6 col-md-6">		
+			<h4>Daftar Menu</h4>
+			<ul id="listMenu" class="list-group kfc">
+
+			</ul> 
+			<br>
+		</div>
+	</div>
+	
+</div>
+
+<!-- FOOTER -->
+<div class="jumbotron text-center align-self-center footerkfc">
+  <p>&copy KFC 2018</p>
+</div>
+
+
+<script>
+
+let menus = [];
+const listMenu = document.getElementById('listMenu');
+
+const inputMenu = document.getElementById('inputMenu');
+const tambahMenu = document.getElementById('tambahMenu');
+
+const data = JSON.parse(localStorage.getItem('menuBaru'));
+menus = data;
+
+function checkMenus(){
+	if(menus===null){
+		menus = ["Chickn Fillet", "Fish Fillet", "OR Burger", "Oriental Bento", "Twisty","Cream Soup", "KFC Puding", "KFC Soup"];
+		//localStorage.setItem('menus', JSON.stringify(menus));
+	}
+	else{
+		render();
+	}
+}
+
+checkMenus();
+
+function render(){
+	let index = 0;
+	listMenu.innerHTML = "";
+	
+	while (index < menus.length){
+		listMenu.innerHTML += '<li class="list-group-item kfc">' + menus[index] + ' <button class="btn btn-primary kfc right" onClick="hapus('+index+')"><i class="fa fa-trash" aria-hidden="true"></i> Hapus</button></li>';
+		index = index + 1;
+	}
+		
+}
+
+render();
+
+tambahMenu.addEventListener('click', function(){
+	const menuBaru = inputMenu.value;
+	
+	if(menuBaru!=''){
+		menus.push(menuBaru);
+		render();
+		localStorage.setItem('menuBaru', JSON.stringify(menus));
+		inputMenu.value = '';
+	}
+	else{
+		alert("Menu Tidak Boleh Kosong");
+	}
+});
+
+
+
+/**************/
+
+function hapus(index){
+    var r = confirm("Apa kamu yakin akan menghapus");
+    if (r == true) {
+       menus.splice(index, 1);
+		render();
+		localStorage.setItem('menuBaru', JSON.stringify(menus));
+    } else {
+        
+    }
+    
+}
+/**************/
+
+/*
+function hapus(index){
+	menus.splice(index, 1);
+	render();
+	localStorage.setItem('menuBaru', JSON.stringify(menus));
+}
+*/
+</script>
+
+</body>
+</html> 
